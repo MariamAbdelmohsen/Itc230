@@ -1,5 +1,6 @@
 var http = require("http"),
-    fs = require("fs");
+    fs = require("fs")
+serveStatic = require('serve-static');
 
 
 function serveStatic(res, path, contentType, responseCode) {
