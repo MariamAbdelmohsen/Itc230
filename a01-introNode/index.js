@@ -1,7 +1,5 @@
 var http = require("http"),
-    fs = require("fs")
-serveStatic = require('serve-static');
-
+    fs = require("fs");
 
 function serveStatic(res, path, contentType, responseCode) {
     if (!responseCode) responseCode = 200;
@@ -24,7 +22,7 @@ http.createServer(function(req, res) {
             // app.get('/../a01-introNode/public/home.html', function(req, res) {
             //     res.send('/../a01-introNode/public/home.html')
             // });
-            serveStatic(res, '/../../public/home.html', 'text/html');
+            serveStatic(res, '/public/home.html', 'text/html');
             break;
         case '/about':
             res.writeHead(200, { 'Content-Type': 'text/plain' });
