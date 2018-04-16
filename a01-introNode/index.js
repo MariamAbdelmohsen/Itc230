@@ -1,5 +1,8 @@
 var http = require("http"),
     fs = require("fs");
+var dt = require('./myfirstmodule');
+
+
 
 function serveStatic(res, path, contentType, responseCode) {
     if (!responseCode) responseCode = 200;
@@ -19,9 +22,6 @@ http.createServer(function(req, res) {
     var path = req.url.toLowerCase();
     switch (path) {
         case '/':
-            // app.get('/../a01-introNode/public/home.html', function(req, res) {
-            //     res.send('/../a01-introNode/public/home.html')
-            // });
             serveStatic(res, '/public/home.html', 'text/html');
             break;
         case '/about':
