@@ -1,7 +1,7 @@
 var http = require("http"),
     fs = require("fs"),
-    qs = require("querystring")
-let books = require("./books.js");
+    qs = require("querystring");
+let book = require("./books.js");
 
 function serveStatic(res, path, contentType, responseCode) {
     if (!responseCode) responseCode = 200;
@@ -36,22 +36,24 @@ http.createServer((req, res) => {
                 res.end();
             });
             break;
-            // case '/All':
-            //     let all = book.getAll();
-            //     res.writeHead(200, { 'Content-Type': 'text/plain' });
-            //     res.end('Result for book ID:' + books + "\n" + results);
-            //     break;
-        case '/get':
-            let found = books.get(query.id);
+        case '/all':
+            let foundAll = book.getAll();
             res.writeHead(200, { 'Content-Type': 'text/plain' });
-            let results = (found) ? JSON.stringify(found) : "Not Found";
+            let total = (foundAll) ? JSON.stringify(foundAll) : "Books Not Found";
+            res.end('All books: ' + total);
+            break;
+        case '/get':
+            let foundId = book.get(query.id);
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            let results = (foundId) ? JSON.stringify(foundId) : "Id Not Found";
             res.end('Result for book ID:' + query.id + "\n" + results);
             break;
         case '/delete':
-            let removed = books.delete(oldlenght);
+            let removed = book.delete(query.id);
             res.writeHead(200, { 'Content-Type': 'text/plain' });
             let newresults = (removed) ? JSON.stringify(removed) : "Removed";
             res.end('Book ID: ' + query.id + newresults);
+            // res.end();
             break;
         case '/add':
             res.writeHead(200, { 'Content-Type': 'text/plain' });
