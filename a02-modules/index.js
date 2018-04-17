@@ -21,6 +21,9 @@ http.createServer((req, res) => {
     let url = req.url.split("?");
     let query = qs.parse(url[1]);
     let path = url[0].toLowerCase();
+    let foundAll = book.getAll();
+    let length = book.length;
+
 
     switch (path) {
         case '/':
@@ -37,27 +40,29 @@ http.createServer((req, res) => {
             });
             break;
         case '/all':
-            let foundAll = book.getAll();
             res.writeHead(200, { 'Content-Type': 'text/plain' });
             let total = (foundAll) ? JSON.stringify(foundAll) : "Books Not Found";
             res.end('All books: ' + total);
             break;
         case '/get':
-            let foundId = book.get(query.id);
+            let foundId = book.get(Number(query.id));
             res.writeHead(200, { 'Content-Type': 'text/plain' });
             let results = (foundId) ? JSON.stringify(foundId) : "Id Not Found";
-            res.end('Result for book ID:' + query.id + "\n" + results);
+            res.end('Result for book ID: ' + (Number(query.id)) + "\n" + results);
             break;
         case '/delete':
-            let removed = book.delete(query.id);
+            let removed = book.delete(Number(query.id));
+
             res.writeHead(200, { 'Content-Type': 'text/plain' });
             let newresults = (removed) ? JSON.stringify(removed) : "Removed";
-            res.end('Book ID: ' + query.id + newresults);
-            // res.end();
+            let oldLenght = (length) ? JSON.stringify(length) : "";
+            res.end('Book ID: ' + (Number(query.id)) + " is removed" + oldLenght);
             break;
         case '/add':
+            let added = book.add(Number(query.id));
             res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end('new added');
+            let addnew = (added) ? JSON.stringify(added) : "Added"
+            res.end('new added book ' + (Number(query.id)) + " to the list");
             break;
         default:
             res.writeHead(404, { 'Content-Type': 'text/plain' });
