@@ -14,22 +14,40 @@ exports.get = (id) => {
     });
 };
 
+// exports.delete = (id) => {
+//     let oldLenght = books.length;
+//     books = books.filter((item) => {
+//         return item.id !== id;
+//     });
+//     return { deleted: oldLenght !== books.length };
+// };
 exports.delete = (id) => {
-    const oldLenght = books.length;
-    books = books.filter((item) => {
+    let oldLenght = books.length;
+    Books = books.filter((item) => {
         return item.id !== id;
     });
-    return { deleted: oldLenght !== books.length };
+    return { deleted: oldLenght, total: books.length };
 };
-
 exports.add = (newId) => {
-    const oldLenght = books.length;
+    let oldLenght = books.length;
     let found = this.get(newId.id);
     if (!found) {
         books.push(newId);
     }
     return {
-        add: oldLenght !== books.length,
+        add: oldLenght,
         total: books.length
     };
 };
+
+// exports.add = (newId) => {
+//     let oldLenght = books.length;
+//     let found = this.get(newId.id);
+//     if (!found) {
+//         books.push(newId);
+//     }
+//     return {
+//         add: oldLenght !== books.length,
+//         total: books.length
+//     };
+// };
