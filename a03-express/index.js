@@ -29,7 +29,7 @@ app.get('/details', (req, res) => {
 });
 
 app.get('/delete', (req, res) => {
-    let found = book.get(Number(req.query.id));
+    let found = book.delete(Number(req.query.id));
     let result = book.delete(Number(req.query.id));
     res.render("delete", { id: (Number(req.query.id)), result: found, books: book.getAll })
 });
