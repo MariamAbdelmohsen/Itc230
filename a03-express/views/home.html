@@ -16,11 +16,15 @@
         <button> Search </button>
     </form>
     <h3> Books</h3>
-    {{#each Books}}
+
     <ul>
-        <li><a href="/details?id={{id}}">{{id}}</a></li>
-    </ul>
-    {{/each}}
+        {{#each books}}
+
+        <ul>
+            <li>
+                <a href="/details?id={{id}}"> ID: {{id}} Title: {{title}} </a></li>
+        </ul>
+        {{/each}}
 </body>
 
 </html>
