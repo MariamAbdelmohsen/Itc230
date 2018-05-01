@@ -1,0 +1,27 @@
+<html>
+
+<body>
+    <h1>My Header</h1>
+    <p>My paragraph.</p>
+    <ul id="list">
+    </ul>
+    <p id="books">
+
+    </p>
+    <script>
+        var books = ['Harry Potter and the Sorceret\' s Stone', ' Harry Potter and the Chamber of Secrets ', 'Harry Potter and the Prisoner of Azkaban', ' Harry Potter and the Goblet of Fire', ' Harry Potter and the Order of the Phoenix'];
+        document.getElementById("list").innerHTML = books;
+
+        var books, text, flen, i;
+        books = ['Harry Potter and the Sorceret\' s Stone', ' Harry Potter and the Chamber of Secrets ', 'Harry Potter and the Prisoner of Azkaban', ' Harry Potter and the Goblet of Fire', ' Harry Potter and the Order of the Phoenix'];
+        flen = books.length;
+        text = "<ul>";
+        for (i = 0; i < flen; i++) {
+            text += "<li>" + books[i] + "</li>";
+        }
+        text += "</ul>"
+        document.getElementById("list").innerHTML = text;
+    </script>
+</body>
+
+</html>
