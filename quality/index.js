@@ -40,6 +40,11 @@ app.post('/details', (req, res) => {
     let found = book.get(Number(req.body.id));
     res.render("details", { id: (Number(req.body.id)), result: found, books: book.getAll })
 });
+app.get('/add', (req, res) => {
+    let found = book.add(Number(req.query.id), newTitle, newYear);
+    let newresult = book.add(Number(req.query.id), newTitle, newYear);
+    res.render("add", { id: (Number(req.query.id)), title: newTitle, year: newYear, newresult: found, books: book.getAll })
+});
 
 app.use((req, res) => {
     res.type('text/plain');
