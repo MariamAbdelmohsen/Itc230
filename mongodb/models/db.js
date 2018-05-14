@@ -14,7 +14,8 @@ conn.on('error', console.error.bind(console, 'connection error:'));
 var mySchema = mongoose.Schema({
     title: { type: String, required: true },
     id: Number,
-    year: Number
+    year: Number,
+    author: String
 });
 
 module.exports = mongoose.model('Book', mySchema);
