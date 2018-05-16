@@ -28,7 +28,24 @@
         {{/each}}
         <p>
             <h3>Add new Book</h3>
-            <a href="/add?id={{id}}"> Add</a>
+
+            <form action="/action_page.php">
+                Id: {{id}} <br>
+                <input type="text" name="id" value="Id">
+                <br> Title: {{title}}
+                <br>
+                <input type="text" name="title" value="title">
+                <br> year: {{year}}
+                <br>
+                <input type="text" name="year" value="Year">
+                <br> Author: {{author}}<br>
+                <input type="text" name="author" value="Author">
+                <br>
+                <br>
+                <input type="submit" value="Add">
+            </form>
+
+            <a href="/add?"> Add</a>
         </p>
 </body>
 

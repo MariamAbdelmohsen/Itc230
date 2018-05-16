@@ -60,8 +60,8 @@ app.get('/delete', (req, res) => {
     // let result = book.delete(Number(req.query.id));
     // res.render("delete", { id: (Number(req.query.id)), result: found, books: book.getAll })
 });
-app.get('/add', (req, res) => {
-    Book.insert({ id: (Number(req.query.id)) }, (err, result) => {
+app.post('/add', (req, res) => {
+    Book.add({ id: (Number(req.query.id)) }, (err, result) => {
         if (err) return next(err);
         let added = result;
         Book.push((err, total) => {
