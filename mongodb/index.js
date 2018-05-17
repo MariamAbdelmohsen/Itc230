@@ -60,17 +60,17 @@ app.get('/delete', (req, res) => {
     // let result = book.delete(Number(req.query.id));
     // res.render("delete", { id: (Number(req.query.id)), result: found, books: book.getAll })
 });
-app.post('/add', (req, res) => {
-    Book.add({ id: (Number(req.query.id)) }, (err, result) => {
-        if (err) return next(err);
-        let added = result;
-        Book.push((err, total) => {
-            res.type('text/html');
-            res.render('add', { id: (Number(req.query.id)), title: title, year: year, added: result, total: total })
-        });
+// app.post('/add', (req, res) => {
+//     Book.add({ id: (Number(req.query.id)) }, (err, result) => {
+//         if (err) return next(err);
+//         let added = result;
+//         Book.push((err, total) => {
+//             res.type('text/html');
+//             res.render('add', { id: (Number(req.query.id)), title: title, year: year, added: result, total: total })
+//         });
 
-    });
-});
+//     });
+// });
 
 // "id": 1,
 // "title": "Harry Potter and the Sorceret' s Stone",
