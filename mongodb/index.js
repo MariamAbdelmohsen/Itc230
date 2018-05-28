@@ -37,7 +37,7 @@ app.get('/details', (req, res) => {
         })
 });
 
-app.post('/details', (req, res) => {
+app.post('/details', (req, res, next) => {
     Book.findOne({ id: (Number(req.body.id)) },
         (err, book) => {
             if (err) return next(err);
@@ -47,7 +47,7 @@ app.post('/details', (req, res) => {
         })
 });
 
-app.get('/delete', (req, res) => {
+app.get('/delete', (req, res, next) => {
     Book.remove({ id: (Number(req.query.id)) }, (err, result) => {
         if (err) return next(err);
         let deleted = result;
@@ -56,21 +56,19 @@ app.get('/delete', (req, res) => {
             res.render('delete', { id: (Number(req.query.id)), deleted: result, total: total })
         });
     });
-    // let found = book.delete(Number(req.query.id));
-    // let result = book.delete(Number(req.query.id));
-    // res.render("delete", { id: (Number(req.query.id)), result: found, books: book.getAll })
 });
-// app.post('/add', (req, res) => {
-//     Book.add({ id: (Number(req.query.id)) }, (err, result) => {
-//         if (err) return next(err);
-//         let added = result;
-//         Book.push((err, total) => {
-//             res.type('text/html');
-//             res.render('add', { id: (Number(req.query.id)), title: title, year: year, added: result, total: total })
-//         });
+app.get('/add', (req, res, next) => {
+    // let id = (Number(req.params.id));
+    let title = req.params.title;
+    Book.update({ title: title }, { upsert: true }, (err, result) => {
+        // Book.update({ title: title }, { upsert: true }, (err, result) => {
+        if (err) return next(err);
+        let added = result;
+        res.type('text/html');
+        res.render('add', { updated: result })
 
-//     });
-// });
+    });
+});
 
 // "id": 1,
 // "title": "Harry Potter and the Sorceret' s Stone",

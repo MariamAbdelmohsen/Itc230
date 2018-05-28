@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Details Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="/a03-express/public/css/main.css" />
+</head>
+
+<body>
+    <h1><a href="/"> HOME </a></h1>
+    {{#if result}}
+    <h2>{{id}} Details</h2>
+    <ul>
+        <li>id: {{result.id}} </li>
+        <li>title: {{result.title}}</li>
+        <li>Year: {{result.year}}</li>
+        <li>Author: {{result.author}}</li>
+    </ul>
+    <p>
+        <a href="/delete?id={{result.id}}"> Delete</a>
+    </p>
+    {{else}}
+    <h2>{{id}} not found</h2>
+    {{/if}}
+</body>
+
+</html>
