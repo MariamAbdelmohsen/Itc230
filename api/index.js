@@ -47,7 +47,7 @@ app.post('/details', (req, res) => {
         })
 });
 
-app.get('/delete', (req, res) => {
+app.get('/delete', (req, res, next) => {
     Book.remove({ id: (Number(req.query.id)) }, (err, result) => {
         if (err) return next(err);
         let deleted = result;
@@ -57,7 +57,18 @@ app.get('/delete', (req, res) => {
         });
     });
 });
+app.get('/add', (req, res, next) => {
+    // let id = (Number(req.params.id));
+    let title = req.params.title;
+    Book.update({ title: title }, { upsert: true }, (err, result) => {
+        // Book.update({ title: title }, { upsert: true }, (err, result) => {
+        if (err) return next(err);
+        let added = result;
+        res.type('text/html');
+        res.render('add', { updated: result })
 
+    });
+});
 
 // app.get('/foo', (req, res, next) => {
 //     if (Math.random() < 0.5) return next();
@@ -94,37 +105,25 @@ app.get('/api/book/:id', (req, res, next) => {
     });
 });
 
-app.get('/api/book/add/:id', (req, res, next) => {
-    let id = (Number(req.params.id));
-    Book.update({ id: (Number(req.params.id)) }, { upsert: true }, (err, result) => {
-        // Book.update({ id: (Number(req.params.id)), title: title, author: author }, { upsert: true }, (err, book) => {
+app.get('/api/book/add/:id/:title/:year/:author', (req, res, next) => {
+    let id = req.params.id;
+    let title = req.params.title;
+    let year = req.params.year;
+    let author = req.params.author;
+    Book.update({ id: req.params.id }, req.params, { upsert: true }, (err, result) => {
         if (err) return next(err);
-        res.json({ updated: result.nModified });
+        res.json({ updated: result, id: req.params.id, title: title, year: req.params.year, author: author });
     });
 });
 
 app.get('/api/book/delete/:id', (req, res, next) => {
-    Book.remove({ id: (Number(req.params.id)) }, (err, book) => {
+    Book.remove({ id: req.params.id }, (err, result) => {
         if (err) return next(err);
-        let deleted = result;
         Book.count((err, total) => {
-            res.json('deleted', { id: (Number(req.query.id)), deleted: result.result.n, total: total })
+            res.json({ id: req.params.id, deleted: result, total: total })
         });
     });
 });
-
-
-// app.post('/add', (req, res) => {
-//     Book.add({ id: (Number(req.query.id)) }, (err, result) => {
-//         if (err) return next(err);
-//         let added = result;
-//         Book.push((err, total) => {
-//             res.type('text/html');
-//             res.render('add', { id: (Number(req.query.id)), title: title, year: year, added: result, total: total })
-//         });
-
-//     });
-// });
 
 // "id": 1,
 // "title": "Harry Potter and the Sorceret' s Stone",
