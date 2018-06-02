@@ -57,19 +57,28 @@ app.get('/delete', (req, res, next) => {
         });
     });
 });
-app.get('/add', (req, res, next) => {
-    // let id = (Number(req.params.id));
-    let title = req.params.title;
-    Book.update({ title: title }, { upsert: true }, (err, result) => {
-        // Book.update({ title: title }, { upsert: true }, (err, result) => {
-        if (err) return next(err);
-        let added = result;
-        res.type('text/html');
-        res.render('add', { updated: result })
+// app.get('/add', (req, res, next) => {
+//     let title = req.params.title;
+//     Book.update({ title: title }, req.params, { upsert: true }, (err, result) => {
+//         if (err) return next(err);
+//         let added = result;
+//         res.type('text/html');
+//         res.render('add', { updated: result })
 
+//     });
+// });
+
+app.post('/add', (req, res, next) => {
+    let id = req.params.id;
+    let title = req.params.title;
+    let year = req.params.year;
+    let author = req.params.author;
+    Book.update({ id: req.params.id }, req.params, { upsert: true }, (err, result) => {
+        if (err) return next(err);
+        res.type('text/html');
+        res.render('add', { updated: result, id: req.params.id, title: title, year: req.params.year, author: author });
     });
 });
-
 // "id": 1,
 // "title": "Harry Potter and the Sorceret' s Stone",
 // "year": 1997,
