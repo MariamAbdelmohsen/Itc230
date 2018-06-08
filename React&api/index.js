@@ -2,6 +2,7 @@
 
 let Book = require("./api/models/db.js");
 let bodyParser = require("body-parser");
+let url = "https://itc-130-maryouma11.c9users.io/";
 const express = require("express");
 const app = express();
 
@@ -17,14 +18,12 @@ let handlebars = require("express-handlebars");
 
 let fetch = require("node-fetch");
 
-let url = "https://itc-130-maryouma11.c9users.io/";
 app.engine(".html", handlebars({ extname: ".html" }));
 app.set("view engine", ".html");
 
 
 app.get('/', (req,res, next) => {
     Book.find((err,books) => {
-        // console.log(books)
         if (err) return next(err);
         res.render('home', {books: JSON.stringify(books)});    
     });
@@ -48,15 +47,21 @@ app.get('/api/book/:id', (req, res, next) => {
         res.json(book);
     });
 });
+
 app.post('/api/book/add/', (req,res, next) => {
-    if (!req.body.id) { // insert new document
-        let book = new Book({id: req.body.id,title:req.body.title,year: req.body.year,author:req.body.author});
+    if (!req.body.id) {
+        let book = new Book({id: req.body.id,title: req.body.title,year: req.body.year,author: req.body.author});
         book.save((err,newBook) => {
-        Book.updateOne({ id: req.body.id}, {title:req.body.title, year: req.body.year, author: req.body.author }, (err, result) => {
+              if (err) return next(err);
+            console.log(newBook)
+            res.json({updated: 0, _id: newBook._id});
+        });
+    } else { 
+        Book.updateOne({ id: req.body.id}, { id: req.body.id,title: req.body.title, year: req.body.year, author: req.body.author }, (err, result) => {
            if (err) return next(err);
             res.json({updated: result.nModified, id: req.body.id});
         });
-        });
+        
     }
 });
 
