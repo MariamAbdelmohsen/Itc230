@@ -76,7 +76,7 @@ this.state ={
        
         onSave(){
           let newItem = this.state.currentItem;
-          if (!newItem.id){
+          if (!newItem.title){
             return;
           }
         fetch("https://itc-130-maryouma11.c9users.io" + "/api/book/add/",{
@@ -88,20 +88,20 @@ this.state ={
         	.then((json) => {
         	  
          let newData;
-          if (!newItem.id) { 
-            newData = this.state.data;
-            newItem.id = json.id;
+          if (!newItem._id) { 
+            newData = this.state.items;
+            newItem.id = json._id;
             newData.push(newItem);
           } else { 
-            newData = this.state.data.map((item) => {
-              if (item.id === newItem.id) {
+            newData = this.state.items.map((item) => {
+              if (item._id === newItem._id) {
                 item = newItem; 
               }
               return item;
             });          
           }
   
-          this.setState({data: newData});
+          this.setState({items: newData});
         });
       }
       

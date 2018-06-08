@@ -49,17 +49,17 @@ app.get('/api/book/:id', (req, res, next) => {
 });
 
 app.post('/api/book/add/', (req,res, next) => {
-    if (!req.body.id) {
-        let book = new Book({id: req.body.id,title: req.body.title,year: req.body.year,author: req.body.author});
+    if (!req.body._id) {
+        let book = new Book({id: req.body.id, title: req.body.title, year: req.body.year,author: req.body.author});
         book.save((err,newBook) => {
               if (err) return next(err);
             console.log(newBook)
             res.json({updated: 0, _id: newBook._id});
         });
     } else { 
-        Book.updateOne({ id: req.body.id}, { id: req.body.id,title: req.body.title, year: req.body.year, author: req.body.author }, (err, result) => {
+        Book.updateOne({ _id: req.body._id}, { id: req.body.id, title: req.body.title, year: req.body.year, author: req.body.author }, (err, result) => {
            if (err) return next(err);
-            res.json({updated: result.nModified, id: req.body.id});
+            res.json({updated: result.nModified, _id: req.body._id});
         });
         
     }
