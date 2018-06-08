@@ -1,0 +1,86 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>React App Starter Page</title>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.2/react.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/15.6.1/react-dom.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+
+
+  <div id="root"></div>
+
+<script type="text/babel">
+
+    class MyBookApp extends React.Component {
+      constructor(props){
+        super(props);
+
+        this.state = {
+items: [{ "_id": "5af4c974734d1d4460790776","id":2,"title":"Harry Potter and the Chamber of Secrets", "year":1999, "author": "J.K.Rowling"},
+        { "_id": "5af4cc5a734d1d4460790a33","id":3,"title":"Harry Potter and the Prisoner of Azkaban", "year":2001, "author": "J. K. Rowling"}, { "_id": "5af4ccb8734d1d4460790a5d", "id":4,"title":"Harry Potter and the Goblet of Fire", "year":2002, "author":
+        "J. K. Rowling" }, { "_id": "5af4cd3d734d1d4460790aa7", "id":5, "title": "The Handmaid's Tale", "year":1985, "author": "Margaret Atwood" }, { "_id":"5b15a007fb6fc02bcb8de44b", "id":1,"title":"Harry Potter and theSorceretsStone", "year":1997, "author":
+        "J.K.Rowling" }],
+        currentItem: {}
+        };
+      }
+        showDetails(event){
+            let editItem = this.state.items.find((item) =>{
+                return item._id === event.target.id;
+            });
+             this.setState({currentItem: editItem});
+        }
+        
+      render() {
+        return (
+          <div className="booksList">
+          <Title title="Books" />
+          <ItemList items={this.state.items} show={this.showDetails.bind(this)}/>
+          <CurrentItemDetails item={this.state.currentItem}/>
+          </div>
+        );
+      }
+          
+    }
+
+    // UI elements
+    
+    const Title = ({title}) => {
+      return <div><h2>{title}</h2></div>;
+    }
+    
+    const ItemList = ({items,  show}) => {
+      const itemNodes = items.map((item) => {
+          return <li id={item._id} key={item._id} onClick={show}>{item.title}</li>
+      });
+      return <ul>{itemNodes}</ul>;
+    }
+    
+    const CurrentItemDetails = (props) => {
+        return (
+            <span className="bookDetails">
+            <h3>Book details:</h3>
+            <form>
+            <input type="text" name="id" placeholder="ID" value={props.item.id || ""}/>
+            <input type="text" name="title" placeholder="title" value={props.item.title || ""}/>
+            <input type="text" name="year" placeholder="year" value={props.item.year || ""}/>
+            <input type="text" name="author" placeholder="author" value={props.item.author || ""}/>
+            </form>
+            </span>
+            );
+        }
+    
+    
+    
+
+    
+    ReactDOM.render(<MyBookApp />, document.getElementById('root'));
+
+</script>  
+
+</body>
+</html>

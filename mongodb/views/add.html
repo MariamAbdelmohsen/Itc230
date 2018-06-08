@@ -13,13 +13,21 @@
     <h1><a href="/"> HOME </a></h1>
     {{#if added}}
     <h2>{{id}} add</h2>
-    <ul>
-        <li>id: {{id}} </li>
-        <li>title: {{title}}</li>
-        <li>Year: {{year}}</li>
-        <li>Author: {{author}}</li>
-    </ul>
-    <h3>New total: {{total}} </h3>
+    <form action="/add?" method="Post">
+        Id: {{id}} <br>
+        <input type="text" name="id" value="Id">
+        <br> Title: {{title}}
+        <br>
+        <input type="text" name="title" value="title">
+        <br> year: {{year}}
+        <br>
+        <input type="text" name="year" value="Year">
+        <br> Author: {{author}}<br>
+        <input type="text" name="author" value="Author">
+        <br>
+        <br>
+        <input type="submit" value="Add">
+    </form>
     <p>
         <a href="/delete?id={{result.id}}"> Delete</a>
     </p>
