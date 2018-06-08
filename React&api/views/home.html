@@ -1,0 +1,182 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>React App Starter Page</title>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.6.2/react.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/15.6.1/react-dom.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+<link rel="stylesheet" href="style.css" type="text/css" />
+<style type="text/css">
+  li:hover{
+    text-decoration: underline;
+      cursor: pointer;
+      color: red;
+}
+
+.booksList{
+      line-height: 1.4;
+    margin: 10px 50px;
+    text-align: left;
+    padding: 10px;
+}
+
+input[type="text"]{
+    display: block;
+    padding: 10px;
+    background-color: #ccc;
+}
+</style>
+</head>
+<body>
+
+
+  <div id="root"></div>
+
+<script type="text/babel">
+
+    class MyBookApp extends React.Component {
+      constructor(props){
+        super(props);
+this.state ={
+       items: {{{books}}},
+        filter: "",
+        currentItem: {}
+        };
+        
+        this.onSearchChange = this.onSearchChange.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.onSave = this.onSave.bind(this);
+        this.onDelete = this.onDelete.bind(this);
+        this.onClear = this.onClear.bind(this);
+      }
+        showDetails(event){
+            let editItem = this.state.items.find((item) =>{
+                return item._id === event.target.id;
+            });
+             this.setState({currentItem: editItem});
+        }
+        
+        onSearchChange(evet){
+        this.setState({filter: event.target.value.toLowerCase() });
+        }
+        
+        
+        onClear(){
+          this.setState({currentItem: {}});
+        }
+        
+        onChange(event){
+          let newItem = this.state.currentItem;
+          newItem[event.target.name] = event.target.value
+          this.setState({currentItem: newItem});
+          
+        }
+       
+        onSave(){
+          let newItem = this.state.currentItem;
+          if (!newItem.title){
+            return;
+          }
+        fetch(url + "/api/book/add/" ,{
+             method: "POST",
+        	headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newItem)
+        })
+        .then(res => res.json())
+        	.then((json) => {
+         let newData;
+          if (!newItem._id) { 
+            newData = this.state.items;
+            newItem._id = json._id;
+            newData.push(newItem);
+          } else { 
+            newData = this.state.items.map((item) => {
+              if (item._id === newItem._id) {
+                item = newItem; 
+              }
+              return item;
+            });          
+          }
+  
+          this.setState({items: newData});
+        });
+      }
+      
+      onDelete(){
+        let id = this.state.currentItem._id;
+        
+        fetch(url + "/api/book/delete/" + id).then((response) => {
+          return response.json();
+        }).then((results) => {
+       const total = this.state.items.filter((item) => {
+            return item._id !== id;
+          });
+          this.setState({items: total, currentItem: {}});
+        });
+      }
+    
+        
+      render() {
+        return (
+          <div className="booksList">
+          <Title title="Books" />
+          <SearchForm filter={this.state.filter} change={this.onSearchChange} />
+           <ItemList
+                items={this.state.items} 
+                filter={this.state.filter}
+                show={this.showDetails.bind(this)}/>
+          <CurrentItemDetails item={this.state.currentItem} change={this.onChange} save={this.onSave} reset={this.onClear} delete={this.onDelete} />
+          </div>
+        );
+      }
+          
+    }
+
+    const Title = ({title}) => {
+      return <div><h2>{title}</h2></div>;
+    }
+    
+    const ItemList = ({items, filter, show}) => {
+      const itemNodes = items.map((item) => {
+        if (! filter || item.title.toLowerCase().includes(filter)){
+          return <li id={item._id} key={item._id} onClick={show}>{item.title}</li>
+     } });
+      return <ul>{itemNodes}</ul>;
+    }
+    
+    const SearchForm = (props) => {
+        return (
+          <div>
+            <input
+              type="text" placeholder="Enter the Name of the book"
+              value={props.filter}
+              onChange={props.change}/>
+          </div>
+        );
+    }
+    
+    const CurrentItemDetails = (props) => {
+        return (
+            <span className="bookDetails">
+            <h3>Book details:</h3>
+            <form onChange={props.change}>
+            <input type="text" name="id" placeholder="ID" value={props.item.id || ""}/>
+            <input type="text" name="title" placeholder="title" value={props.item.title || ""}/>
+            <input type="text" name="year" placeholder="year" value={props.item.year || ""}/>
+            <input type="text" name="author" placeholder="author" value={props.item.author || ""}/>
+            </form>
+ <button onClick={props.save}>Save</button>
+ <button onClick={props.reset}>Reset</button>
+            <button onClick={props.delete}>Delete</button>
+            </span>
+            );
+        }
+     
+    ReactDOM.render(<MyBookApp />, document.getElementById('root'));
+
+</script>  
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Deleted</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="/a03-express/public/css/main.css" />
+</head>
+
+<body>
+    <h1><a href="/">Home</a></h1>
+    {{#if deleted}}
+    <h2> ID: {{id}} is deleted</h2>
+
+    <h3>remaining total: {{total}} </h3>{{else}}
+    <h2> ID: {{id}} Book Id Not found</h2>
+    {{/if}}
+
+
+</body>
+
+</html>

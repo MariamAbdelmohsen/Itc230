@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>HOME page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="/a03-express/public/css/main.css" />
+</head>
+
+<body>
+    <h1>Home</h1>
+    <form method="POST" action="/details">
+        <input type="text" name="id" placeholder="Book ID" required>
+        <button> Search </button>
+    </form>
+    <h3> Books</h3>
+
+    <ul>
+        {{#each books}}
+
+        <ul>
+            <li>
+                ID: {{id}} Title: {{title}} <a href="/details?id={{id}}"> Details  </a></li>
+
+        </ul>
+        {{/each}}
+        <p>
+            <h3>Add new Book</h3>
+
+            <form action="/action_page.php">
+                Id: {{id}} <br>
+                <input type="text" name="id" value="Id">
+                <br> Title: {{title}}
+                <br>
+                <input type="text" name="title" value="title">
+                <br> year: {{year}}
+                <br>
+                <input type="text" name="year" value="Year">
+                <br> Author: {{author}}<br>
+                <input type="text" name="author" value="Author">
+                <br>
+                <br>
+                <input type="submit" value="Add">
+            </form>
+
+            <a href="/add?"> Add</a>
+        </p>
+</body>
+
+</html>
